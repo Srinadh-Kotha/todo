@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}To Do List{% endblock %}
 {% block content %}
-<form method="GET" >
+<!-- <form method="GET" > -->
 <div class="row">
     {% for i in todoslist %}
     <div class="col-md-4" style="margin-top: 20px;">
@@ -14,15 +14,15 @@
               <h5 class="card-title"><b>Start Date : </b>{{ i.start_date }}</h5>
               <h5 class="card-title"><b>End Date : </b>{{ i.end_date }}</h5>
               <h5><b>Status : </b>{{ i.status }}</h5>
-  
-
-              <form action="del_todo/{{i.id}}/" method = "post">{% csrf_token %}
+              <h5><b>Status : </b>{{ i.id }}</h5>
+              <form action="del_todo/{{i.id}}/" method = "post">
+                {% csrf_token %}
                 <input type="submit" value="Delete">
               </form>  
             </div>
         </div>
     </div>
     {% endfor %}
-</form>
+<!-- </form> -->
 
 {% endblock %}

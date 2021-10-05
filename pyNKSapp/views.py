@@ -1,3 +1,4 @@
+from django.db.models.fields import NullBooleanField
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
 from pyNKSapp.models import signupdetails,todo_list,trash
@@ -132,24 +133,12 @@ def my_todo(request):
     todos={
         "todoslist":d
     }
-    print(d)
     return render(request,'todolist.html',todos)
 
 def del_todo(request, i):
-    y = todo_list.objects.get(id=i)
+    y = todo_list.objects.filter(id=i)
     y.delete()
-    return render(request,'my_todo.html') 
-
-
-# def Trash(request):
-#     user=signupdetails.objects.get(email=request.session['email'])
-#     c=trash.objects.filter(user=user).all()
-#     stu={
-#         "list":c
-#     }
-#     print(c)
-#     return render(request,'trash.html',stu)
-
+    return render(request,'home.html') 
     
 
 
