@@ -16,6 +16,8 @@ urlpatterns = [
     path('my_todo',views.my_todo,name='my_todo'),
     # path('todolist',views.todolist,name='todolist'),
     path('del_todo/<int:i>/',views.del_todo,name='del_todo'),
+    path('my_todotrash',views.my_todotrash,name='my_todotrash'),
+    path('del_trash/<int:i>/',views.del_trash,name='del_trash'),
 
 
 ]

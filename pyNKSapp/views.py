@@ -85,6 +85,7 @@ def insertrecord(request):
     if request.method=='POST':
         if request.POST.get('firstname') and request.POST.get('lastname') and request.POST.get('phone') and request.POST.get('email') and request.POST.get('dob') and request.POST.get('gender'):
             saverecord=signupdetails()
+
             saverecord.firstname=request.POST.get('firstname')
             saverecord.lastname=request.POST.get('lastname')
             saverecord.phone=request.POST.get('phone')
@@ -108,17 +109,26 @@ def todo_listadd(request):
         if request.POST.get('heading') and request.POST.get('description') and request.POST.get('comments') and request.POST.get('start_date') and request.POST.get('end_date') and request.POST.get('status'):
             id_sesss=signupdetails.objects.get(email=request.session['email'])
             saverecord1=todo_list()
+            # savetotrash=trash()
+            print(type(id_sesss.id))
+            saverecord1.user_id=id_sesss.id
             saverecord1.heading=request.POST.get('heading')
             saverecord1.description=request.POST.get('description')
             saverecord1.comments=request.POST.get('comments')
             saverecord1.start_date=request.POST.get('start_date')
             saverecord1.end_date=request.POST.get('end_date')
-            # saverecord1.end_date=request.POST.get('end_date')
-            # saverecord1.reenterpassword=request.POST.get('reenterpassword')
             saverecord1.status=request.POST.get('status')
-            saverecord1.user_id=id_sesss.id
+            
+            # savetotrash.heading=request.POST.get('heading')
+            # savetotrash.description=request.POST.get('description')
+            # savetotrash.comments=request.POST.get('comments')
+            # savetotrash.start_date=request.POST.get('start_date')
+            # savetotrash.end_date=request.POST.get('end_date')
+            # savetotrash.status=request.POST.get('status')
+            # savetotrash.user_id=id_sesss.id
             print(id_sesss.id)
             saverecord1.save()
+            # savetotrash.save()
             #saverecord.save()
             messages.success(request,'submitted...!')
         return render(request,'addtodolist.html')
@@ -135,12 +145,41 @@ def my_todo(request):
     }
     return render(request,'todolist.html',todos)
 
+def my_todotrash(request):
+    todo=signupdetails.objects.get(email=request.session['email'])
+    k=trash.objects.filter(user=todo).all()
+    todostrash={
+        "todoslisttrash":k
+    }
+    print(k)
+    return render(request,'trash.html',todostrash)
+
 def del_todo(request, i):
     y = todo_list.objects.filter(id=i)
+    todo=signupdetails.objects.get(email=request.session['email'])
+    savetotrash=trash()
+    savetotrash.user_id=y[0].user_id
+    savetotrash.heading=y[0].heading
+    savetotrash.description=y[0].description
+    savetotrash.comments=y[0].comments
+    savetotrash.start_date=y[0].start_date
+    savetotrash.end_date=y[0].end_date
+    savetotrash.status=y[0].status
+    savetotrash.save()
+    
+    # # z = trash.objects.filter(id=i)
+    # print(y[0].user[0])
     y.delete()
+
+
     return render(request,'home.html') 
     
 
+def del_trash(request, i):
+    y = trash.objects.filter(id=i)
+    y.delete()
+    return render(request,'home.html') 
+    
 
 
 

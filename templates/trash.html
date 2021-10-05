@@ -3,6 +3,25 @@
 {% block title %}To Do List{% endblock %}
 {% block content %}
 
-
-
+<div class="row">
+    {% for i in todoslisttrash %}
+    <div class="col-md-4" style="margin-top: 20px;">
+        <div class="card" >
+            <div class="card-body">
+              <h3 class="card-title" name="{{ i.heading }}">Heading : {{ i.heading }}</h3>
+              <p><b>Description : </b>{{ i.description }}</p>
+              <p><b>Comments : </b>{{ i.comments }}</p>
+              <h5 class="card-title"><b>Start Date : </b>{{ i.start_date }}</h5>
+              <h5 class="card-title"><b>End Date : </b>{{ i.end_date }}</h5>
+              <h5><b>Status : </b>{{ i.status }}</h5>
+              <form action="del_trash/{{i.id}}/" method = "post">
+                {% csrf_token %}
+                <!-- <input type="btn btn-primary submit" value="Remove from trash"> -->
+                <button type="submit" class="btn btn-primary">Remove from Trash</button>
+              </form>  
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
