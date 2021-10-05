@@ -1,14 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
-from pyNKSapp.models import signupdetails,staff_details,student_enroll,number_of_students,enrolled,todo_list,trash
+from pyNKSapp.models import signupdetails,todo_list,trash
 from django.contrib import messages
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-def error_404_view(request,exception):
-    return render(request,'404.html')
 
 def home(request):
     return render(request,'home.html')
@@ -27,6 +25,10 @@ def passSent(request):
 
 def addtodolist(request):
     return render(request,"addtodolist.html")
+
+# def todolist(request):
+#     # print()
+#     return render(request,"todolist.html")
 
 def logindata(request):
     if request.method=="POST":
@@ -110,7 +112,7 @@ def todo_listadd(request):
             saverecord1.comments=request.POST.get('comments')
             saverecord1.start_date=request.POST.get('start_date')
             saverecord1.end_date=request.POST.get('end_date')
-            saverecord1.end_date=request.POST.get('end_date')
+            # saverecord1.end_date=request.POST.get('end_date')
             # saverecord1.reenterpassword=request.POST.get('reenterpassword')
             saverecord1.status=request.POST.get('status')
             saverecord1.user_id=id_sesss.id
@@ -124,272 +126,29 @@ def todo_listadd(request):
         return render(request,'addtodolist.html')
 
 
-def courselist1(request):
-    return render(request,"courselist1.html")
-
-def courselist2(request):
-    return render(request,"courselist2.html")
-
-def courselist3(request):
-    return render(request,"courselist3.html")
-
-def courselist4(request):
-    return render(request,"courselist4.html")
-
-def institutes(request):
-    return render(request,"institutes.html")
-
-def contactus(request):
-    return render(request,"contactus.html")
-
-def Aboutus(request):
-    return render(request,"Aboutus.html")
-
-def getinstitute(request):
-    q = request.GET['institutes']
-    return HttpResponse(q)
-
-def studentscount(request):
-    a=enrolled.objects.all().order_by("user")
-    b=list(a.user)
-
-    
-
-def myenroll_list(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    c=enrolled.objects.filter(user=user).all()
-    stu={
-        "student":c
-    }
-    print(c)
-    return render(request,'student_enroll1.html',stu)
-
 def my_todo(request):
-    todo=todo_list.objects.get(email=request.session['email'])
-    d=enrolled.objects.filter(user=todo).all()
+    todo=signupdetails.objects.get(email=request.session['email'])
+    d=todo_list.objects.filter(user=todo).all()
     todos={
         "todoslist":d
     }
     print(d)
-    return render(request,'student_enroll1.html',todos)
+    return render(request,'todolist.html',todos)
+
+def del_todo(request, i):
+    y = todo_list.objects.get(id= i)
+    y.delete()
+    return render(request,'my_todo.html') 
 
 
-def todo_List(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    c=todo_list.objects.filter(user=user).all()
-    stu={
-        "list":c
-    }
-    print(c)
-    return render(request,'todolist.html',stu)
-
-def Trash(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    c=trash.objects.filter(user=user).all()
-    stu={
-        "list":c
-    }
-    print(c)
-    return render(request,'trash.html',stu)
-
-def booking_1_1(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="PYTHON")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_2(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="CCNA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_3(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="MACHINE LANGUAGE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_4(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="DATA SCIENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_5(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="ARTIFICIAL INTELLIGENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_6(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="JAVA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_7(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="C PROGRAMMING")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_1_8(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="SARJAPURA",course="WEB DEVELOPMENT")   
-    booking.save()
-    return render(request,'register.html')
-
-
-def booking_2_1(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="PYTHON")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_2(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="CCNA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_3(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="MACHINE LANGUAGE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_4(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="DATA SCIENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_5(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="ARTIFICIAL INTELLIGENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_6(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="JAVA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_7(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="C PROGRAMMING")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_2_8(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="YESWANTHPUR",course="WEB DEVELOPMENT")   
-    booking.save()
-    return render(request,'register.html')
-
-
-
-def booking_3_1(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="PYTHON")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_2(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="CCNA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_3(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="MACHINE LANGUAGE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_4(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="DATA SCIENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_5(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="ARTIFICIAL INTELLIGENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_6(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="JAVA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_7(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="C PROGRAMMING")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_3_8(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="KORAMANGALA",course="WEB DEVELOPMENT")   
-    booking.save()
-    return render(request,'register.html')
-
-
-
-def booking_4_1(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="PYTHON")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_2(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="CCNA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_3(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="MACHINE LANGUAGE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_4(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="DATA SCIENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_5(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="ARTIFICIAL INTELLIGENCE")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_6(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="JAVA")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_7(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="C PROGRAMMING")   
-    booking.save()
-    return render(request,'register.html')
-
-def booking_4_8(request):
-    user=signupdetails.objects.get(email=request.session['email'])
-    booking=enrolled(user=user,institute="MARTHAHALLI",course="WEB DEVELOPMENT")   
-    booking.save()
-    return render(request,'register.html')
-
-
+# def Trash(request):
+#     user=signupdetails.objects.get(email=request.session['email'])
+#     c=trash.objects.filter(user=user).all()
+#     stu={
+#         "list":c
+#     }
+#     print(c)
+#     return render(request,'trash.html',stu)
 
     
 

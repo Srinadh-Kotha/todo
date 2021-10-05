@@ -17,11 +17,11 @@
           <div class="media col-sm-2" style="margin: 20px;">
             <img src="{% static 'icon.jpg' %}" width="85" height="85" class="align-self-center mr-3" alt="Responsive-image">
             <div class="media-body" style="margin : 45px 0px 0px 0px;">
-              <h1 class="mt-0"><b>SUCCESS</b></h1>
+              <h1 class="mt-0"><b>To Do List</b></h1>
             </div>
           </div>  
           <div class="col align-self-start">
-            <p>Turning your passion into your carrer is the real SUCCESS!</p>
+            <p>Make note of your works</p>
           </div>          
         </div>
         
@@ -57,32 +57,17 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="{% url 'home' %}" >&nbsp;&nbsp; HOME</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span> 
       </button>
-    
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'institutes' %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Institutes</a>
+            <a class="nav-link" href="{% url 'addtodolist' %}">&nbsp; Add ToDo List</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'contactus' %}">Contact us</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'Aboutus' %}">About us</a>
+            <a class="nav-link" href="{% url 'my_todo' %}">&nbsp; Your </a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'getinstitute' %}">
-          <input list="institutes" class="form-control" style="margin: 1rem; display: block ;" name="institutes">
-          <datalist id="institutes">
-            <option value="sarjapura">
-            <option value="yeswanthpur">
-            <option value="koramangala">
-            <option value="marthahalli">
-          </datalist>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> 
-      </div>
     </nav>
   {% block content %}
   <div class="col-md-8" style="  margin: auto;width: 60%; padding: 50px; ">
