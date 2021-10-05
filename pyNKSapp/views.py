@@ -136,7 +136,7 @@ def my_todo(request):
     return render(request,'todolist.html',todos)
 
 def del_todo(request, i):
-    y = todo_list.objects.get(id= i)
+    y = todo_list.objects.get(id=i)
     y.delete()
     return render(request,'my_todo.html') 
 
